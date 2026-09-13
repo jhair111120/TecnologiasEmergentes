@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  crm-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: crm_contactos
+    ports:
+      - "8080:8080"
+    volumes:
+      # Persistencia de la base de datos SQLite fuera del contenedor
+      - crm_data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ConnectionStrings__DefaultConnection=Data Source=/app/data/contactos.db
+    restart: unless-stopped
+
+volumes:
+  crm_data:
